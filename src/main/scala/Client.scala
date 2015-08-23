@@ -12,12 +12,12 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 
 
-class ClientActor() extends Actor {
+class ClientActor(serverPath: String) extends Actor {
 
   implicit val ec = ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(2000))
-  implicit val timeout = Timeout(60 seconds)
+  implicit val timeout = Timeout(180 seconds)
 
-  val server = context.actorSelection("akka.tcp://ServerActorSystem1@127.0.0.1:5150/user/ServerActor1")
+  val server = context.actorSelection(serverPath)
 
   var twice = scala.collection.mutable.Map[Int, Int]()
   val parentActor = self
@@ -74,12 +74,14 @@ object ClientMain extends App {
   )
 
   val actorSystem = ActorSystem("ClientActorSystem", config)
-  val client = actorSystem.actorOf(Props(new ClientActor()), name="ClientActor")
+  val client = actorSystem.actorOf(Props(new ClientActor(
+    "akka.tcp://ServerActorSystem1@127.0.0.1:5150/user/ServerActor1")), name="ClientActor")
 
   println("Client ready")
 
-  client ! LocalDebug
+  //client ! LocalDebug
+  //client ! DoWork(4000)
 
-  client ! DoWork(4000)
+  client ! DoWork(10)
 
 }

@@ -13,4 +13,7 @@ libraryDependencies ++= Seq(
 
 //mainClass in Compile := Some("runner.ServerRunnerMain1")
 
-mainClass in Compile := Some("client.ClientMain")
+//mainClass in Compile := Some("client.ClientMain")
+
+mainClass in Compile := Some("cli.MainCLI")
+
