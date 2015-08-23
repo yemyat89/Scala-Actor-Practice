@@ -67,7 +67,7 @@ class ServerActor(dataFilePath: String, friendActorPath: String) extends Actor {
           }
 
         } else {
-          println("Very busy and can't accept: " + idString)
+          println("Very busy and there will be some waits and delays.")
         }
       }
 
